@@ -20,7 +20,7 @@ int main() {
     return 0;
 }`);
     return (
-        <div className='flex flex-col items-center justify-center bg-slate-950 text-white w-screen h-screen'>
+        <div className='flex flex-col items-center justify-center text-white bg-gradient-linear from-customPurple1 via-customPurple2 to-customPurple3 w-screen rounded-lg min-h-screen'>
             <h1 className='text-5xl font-bold'>Trace The Program</h1>
             <p className='font-bold text-4xl p-2 mt-4'>{qus}</p>
             <div className='flex justify-center'>
@@ -37,7 +37,7 @@ int main() {
                 />
                 </div>
             </div>
-            <button className='bg-green-500 font-bold text-2xl w-1/4 p-4 rounded-lg hover:bg-green-600'>Submit</button>
+            <button className='bg-[rgb(55,83,187)] font-bold text-2xl w-1/4 p-4 rounded-full hover:bg-[rgb(55,92,229)]'>Submit</button>
         </div>
     )
 }

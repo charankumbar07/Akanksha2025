@@ -7,9 +7,9 @@ import Program from '../components/Program'
 const Round_2Page = () => {
   return (
    <div>
-    {/* <Patran /> */}
-    {/* <Debug /> */}
-    {/* <Trace /> */}
+    <Patran />
+    <Debug />
+    <Trace />
     <Program />
    </div>
   )

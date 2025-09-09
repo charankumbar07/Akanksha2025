@@ -46,6 +46,7 @@ const LoginPage = () => {
       // Simulating a successful login
       setMessage({ type: 'success', text: 'Login successful! Redirecting...' });
       // In a real app, you would handle authentication here and redirect.
+      navigate('/result');
     } else {
       setMessage({ type: 'error', text: 'Please check your credentials.' });
     }
