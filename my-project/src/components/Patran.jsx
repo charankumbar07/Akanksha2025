@@ -38,7 +38,7 @@ const patran = () => {
                     ))}
                 </div>
             </div>
-                <button className='w-1/4 bg-[rgb(55,83,187)] p-4 mt-10 bottom-5 left-[33%] rounded-full hover:bg-[rgb(55,92,229)]'>Submit</button>
+                <button className='w-1/4 bg-[rgb(55,83,187)] p-4 mt-10 bottom-5 left-[33%] rounded-full hover:bg-[rgb(55,92,229)] font-bold text-2xl'>Submit</button>
         </div>
     )
 }
