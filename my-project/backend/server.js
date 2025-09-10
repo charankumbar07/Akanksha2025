@@ -4,6 +4,10 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
+
+// Load environment variables
+dotenv.config({ path: './config.env' });
+console.log('Environment loaded. MONGODB_URI:', process.env.MONGODB_URI);
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 // Import routes
