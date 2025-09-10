@@ -20,7 +20,7 @@ int main() {
     return 0;
 }`);
     return (
-        <div className='flex flex-col items-center justify-center text-white bg-gradient-linear from-customPurple1 via-customPurple2 to-customPurple3 w-screen rounded-lg min-h-screen'>
+        <div className='flex flex-col items-center justify-center text-white bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 font-sans antialiased w-screen min-h-screen'>
             <h1 className='text-5xl font-bold'>Trace The Program</h1>
             <p className='font-bold text-4xl p-2 mt-4'>{qus}</p>
             <div className='flex justify-center'>

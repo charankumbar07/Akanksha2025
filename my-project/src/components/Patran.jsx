@@ -14,7 +14,7 @@ const patran = () => {
     ];
 
     return (
-        <div className='bg-gradient-linear from-customPurple1 via-customPurple2 to-customPurple3 w-screen rounded-lg min-h-screen flex flex-col items-center justify-center text-white'>
+        <div className='bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 font-sans antialiased w-screen min-h-screen flex flex-col items-center justify-center text-white'>
             <div className="w-[50vw] h-[55vh] bg-slate-800 p-4 rounded-2xl text-white relative">
                 <p className="text-3xl font-bold">
                     A train travels 240 km at a uniform speed. If the speed had been 10 km/h more, it would have taken 2 hours less for the journey. What is the original speed of the train?

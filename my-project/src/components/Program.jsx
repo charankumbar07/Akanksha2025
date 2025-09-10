@@ -7,7 +7,7 @@ Sum of 5 and 7 is 12
 `)
     const [ans, setans] = useState("")
     return (
-        <div className='flex flex-col items-center justify-center  text-white bg-gradient-linear from-customPurple1 via-customPurple2 to-customPurple3 rounded-lg w-screen h-screen'>
+        <div className='flex flex-col items-center justify-center  text-white bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 font-sans antialiased w-screen h-screen'>
             <h1 className='text-5xl font-bold'>Write The Program</h1>
             <p className='font-bold text-4xl p-2 mt-4'>For given output</p>
             <div className='flex justify-center'>

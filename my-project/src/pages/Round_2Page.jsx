@@ -1,5 +1,5 @@
 import React from 'react'
-import Patran from '../components/patran'
+import Patran from '../components/Patran'
 import Debug from '../components/debug'
 import Trace from '../components/Trace'
 import Program from '../components/Program'

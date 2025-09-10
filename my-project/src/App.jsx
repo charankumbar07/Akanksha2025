@@ -5,6 +5,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Round_2Page from './pages/Round_2Page';
 import ResultPage from './pages/ResultPage';
+import AdminPage from './pages/AdminPage';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/round-2" element={<Round_2Page />} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </Router>
   );
