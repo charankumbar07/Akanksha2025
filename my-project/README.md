@@ -7,6 +7,7 @@ A full-stack MERN application for managing technical competition registrations w
 - **Team Registration**: Complete team registration with 2 members
 - **Authentication**: JWT-based secure authentication
 - **Competition Management**: Track team status and scores across rounds
+- **Round 3: CODE RUSH**: Special coding challenge with access code "x24"
 - **Modern UI**: Glassmorphism design with Tailwind CSS
 - **Responsive Design**: Mobile-first approach
 - **Real-time Validation**: Client and server-side validation
@@ -34,6 +35,8 @@ my-project/
 ├── src/                          # Frontend (React)
 │   ├── components/               # Reusable UI components
 │   ├── pages/                   # Page components
+│   ├── rounds/                  # Round-specific components
+│   │   └── Round3/             # Round 3 CODE RUSH
 │   ├── services/                # API service layer
 │   └── assets/                  # Static assets
 ├── backend/                     # Backend (Node.js/Express)
@@ -101,6 +104,24 @@ npm run dev
 - **Backend API**: http://localhost:5001/api
 - **Health Check**: http://localhost:5001/api/health
 
+## 🎮 Round 3: CODE RUSH
+
+Round 3 is a special coding challenge accessible through the main application:
+
+1. **Access**: Go to `/result` page and click "Start Round 3"
+2. **Access Code**: Enter "x24" when prompted (case-insensitive)
+3. **Challenge**: Complete 5 C programming puzzles
+4. **Timer**: 5 minutes per question
+5. **Auto-save**: Progress is automatically saved
+6. **Admin View**: View all team results and programs
+
+### Round 3 Features:
+- **Code Verification**: Secure access with "x24" code
+- **Question Randomization**: 5 different question orders
+- **Real-time Scoring**: Immediate feedback on answers
+- **Progress Tracking**: Visual progress indicators
+- **Admin Dashboard**: Complete program analysis
+
 ## 📡 API Endpoints
 
 ### Authentication
@@ -120,6 +141,13 @@ npm run dev
 | GET | `/api/competition/stats` | Get competition stats | No |
 | GET | `/api/competition/status` | Get team status | Yes |
 | PUT | `/api/competition/status` | Update status | Yes |
+| POST | `/api/competition/verify-round3-code` | Verify Round 3 access code | Yes |
+
+### Round 3 (CODE RUSH)
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/api/round3/submit` | Submit Round 3 results | Yes |
+| GET | `/api/round3/scores` | Get Round 3 leaderboard | No |
 
 ## 🗄️ Database Schema
 
