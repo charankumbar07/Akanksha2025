@@ -1,8 +1,10 @@
 import classNames from 'classnames/bind'
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ResultPage = () => {
+  const navigate = useNavigate()
   const [teamName, setTeamName] = useState('')
   const [rounds, setRounds] = useState({
     round1: { status: 'pending', result: null }, // pending, completed, passed, failed
@@ -21,9 +23,12 @@ const ResultPage = () => {
 
   const handleStartRound = (roundNumber) => {
     console.log(`Starting Round ${roundNumber}`)
-    // Here you would typically navigate to the round page or start the round
-    // For now, we'll just show a placeholder action
-    alert(`Starting Round ${roundNumber} for ${teamName}`)
+    if (roundNumber === 3) {
+      navigate('/round-3')
+    } else {
+      // For other rounds, show placeholder
+      alert(`Starting Round ${roundNumber} for ${teamName}`)
+    }
   }
 
   const getRoundStatus = (round) => {

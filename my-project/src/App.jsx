@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Round_2Page from './pages/Round_2Page';
+import Round3Page from './rounds/Round3/Round3Page';
 import ResultPage from './pages/ResultPage';
 import AdminPage from './pages/AdminPage';
 
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/round-2" element={<Round_2Page />} />
+        <Route path="/round-3" element={<Round3Page />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
