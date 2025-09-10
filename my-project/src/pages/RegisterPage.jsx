@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import authService from '../services/authService';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -48,6 +49,8 @@ const RegisterPage = () => {
     // Member 1 validation
     if (!formData.member1Name.trim()) {
       newErrors.member1Name = 'Member 1 name is required';
+    } else if (!/^[a-zA-Z0-9\s\-_.]+$/.test(formData.member1Name)) {
+      newErrors.member1Name = 'Member 1 name can only contain letters, numbers, spaces, hyphens, underscores, and dots';
     }
     if (!formData.member1Email.trim()) {
       newErrors.member1Email = 'Member 1 email is required';
@@ -58,6 +61,8 @@ const RegisterPage = () => {
     // Member 2 validation
     if (!formData.member2Name.trim()) {
       newErrors.member2Name = 'Member 2 name is required';
+    } else if (!/^[a-zA-Z0-9\s\-_.]+$/.test(formData.member2Name)) {
+      newErrors.member2Name = 'Member 2 name can only contain letters, numbers, spaces, hyphens, underscores, and dots';
     }
     if (!formData.member2Email.trim()) {
       newErrors.member2Email = 'Member 2 email is required';
@@ -67,7 +72,7 @@ const RegisterPage = () => {
 
     // Check for duplicate emails
     if (formData.member1Email && formData.member2Email &&
-        formData.member1Email === formData.member2Email) {
+      formData.member1Email === formData.member2Email) {
       newErrors.member2Email = 'Member emails must be different';
     }
 
@@ -81,8 +86,10 @@ const RegisterPage = () => {
     // Password validation
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
     }
 
     // Confirm password validation
@@ -94,13 +101,50 @@ const RegisterPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Form submitted:', formData);
-      // Simulating a successful registration
-      setMessage({ type: 'success', text: 'Team registered successfully!' });
-      // You would typically handle form submission to a backend here.
+      try {
+        setMessage({ type: 'info', text: 'Registering team...' });
+
+        const response = await authService.register({
+          teamName: formData.teamName,
+          member1Name: formData.member1Name,
+          member1Email: formData.member1Email,
+          member2Name: formData.member2Name,
+          member2Email: formData.member2Email,
+          leader: formData.leader,
+          leaderPhone: formData.leaderPhone,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword
+        });
+
+        if (response.success) {
+          setMessage({ type: 'success', text: 'Team registered successfully! Redirecting to login...' });
+          // Store team data in localStorage for easy access
+          localStorage.setItem('hustle_team', JSON.stringify(response.data.team));
+          // Redirect to login page after successful registration
+          setTimeout(() => {
+            navigate('/login');
+          }, 2000);
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        console.error('Full error details:', error);
+
+        // Extract more detailed error information
+        let errorMessage = error.message || 'Registration failed. Please try again.';
+
+        // If it's a validation error, show more details
+        if (error.message && error.message.includes('Details:')) {
+          errorMessage = error.message;
+        }
+
+        setMessage({
+          type: 'error',
+          text: errorMessage
+        });
+      }
     } else {
       setMessage({ type: 'error', text: 'Please correct the errors in the form.' });
     }
@@ -134,7 +178,11 @@ const RegisterPage = () => {
             {/* Registration Form */}
             <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white border-opacity-20">
               {message.text && (
-                <div className={`p-4 rounded-xl mb-4 ${message.type === 'success' ? 'bg-green-500 bg-opacity-20 text-green-200' : 'bg-red-500 bg-opacity-20 text-red-200'}`}>
+                <div className={`p-4 rounded-xl mb-4 ${message.type === 'success' ? 'bg-green-500 bg-opacity-20 text-green-200' :
+                  message.type === 'error' ? 'bg-red-500 bg-opacity-20 text-red-200' :
+                    message.type === 'info' ? 'bg-blue-500 bg-opacity-20 text-blue-200' :
+                      'bg-gray-500 bg-opacity-20 text-gray-200'
+                  }`}>
                   {message.text}
                 </div>
               )}
@@ -299,7 +347,7 @@ const RegisterPage = () => {
                   <h3 className="text-lg font-semibold text-white border-b border-white border-opacity-20 pb-2">
                     Account Security
                   </h3>
-                  
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-white text-sm font-medium mb-2">
@@ -334,7 +382,7 @@ const RegisterPage = () => {
                       </div>
                       {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
                     </div>
-                    
+
                     <div>
                       <label className="block text-white text-sm font-medium mb-2">
                         Confirm Password

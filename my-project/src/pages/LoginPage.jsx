@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import authService from '../services/authService';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -39,14 +40,33 @@ const LoginPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Login attempt:', formData);
-      // Simulating a successful login
-      setMessage({ type: 'success', text: 'Login successful! Redirecting...' });
-      // In a real app, you would handle authentication here and redirect.
-      navigate('/result');
+      try {
+        setMessage({ type: 'info', text: 'Logging in...' });
+
+        const response = await authService.login({
+          teamName: formData.teamName,
+          password: formData.password
+        });
+
+        if (response.success) {
+          setMessage({ type: 'success', text: 'Login successful! Redirecting...' });
+          // Store team data in localStorage for easy access
+          localStorage.setItem('hustle_team', JSON.stringify(response.data.team));
+          // Redirect to result page after successful login
+          setTimeout(() => {
+            navigate('/result');
+          }, 1500);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        setMessage({
+          type: 'error',
+          text: error.message || 'Login failed. Please check your credentials.'
+        });
+      }
     } else {
       setMessage({ type: 'error', text: 'Please check your credentials.' });
     }
@@ -78,7 +98,11 @@ const LoginPage = () => {
 
             <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white border-opacity-20">
               {message.text && (
-                <div className={`p-4 rounded-xl mb-4 ${message.type === 'success' ? 'bg-green-500 bg-opacity-20 text-green-200' : 'bg-red-500 bg-opacity-20 text-red-200'}`}>
+                <div className={`p-4 rounded-xl mb-4 ${message.type === 'success' ? 'bg-green-500 bg-opacity-20 text-green-200' :
+                    message.type === 'error' ? 'bg-red-500 bg-opacity-20 text-red-200' :
+                      message.type === 'info' ? 'bg-blue-500 bg-opacity-20 text-blue-200' :
+                        'bg-gray-500 bg-opacity-20 text-gray-200'
+                  }`}>
                   {message.text}
                 </div>
               )}
