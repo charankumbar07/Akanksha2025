@@ -2,7 +2,6 @@
   "name": "hustle-competition-app",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "description": "Hustle - Technical Competition Registration Platform",
   "author": "Akanksha2025",
   "scripts": {
@@ -13,8 +12,11 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
+<<<<<<< HEAD
     "express": "^5.1.0",
     "mongoose": "^8.18.1",
+=======
+>>>>>>> acd833c33dd0e3ef3552d538f8e146861f300a36
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.28.0"
