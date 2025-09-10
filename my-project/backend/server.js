@@ -11,7 +11,8 @@ import authRoutes from './routes/auth.js';
 import competitionRoutes from './routes/competition.js';
 
 // Load environment variables
-dotenv.config({ path: './config.env' });
+// dotenv.config({ path: './config.env' });
+dotenv.config();
 
 // Connect to database
 connectDB();
