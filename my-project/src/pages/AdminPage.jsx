@@ -25,13 +25,13 @@ const AdminPage = () => {
         <div className='bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex'>
             <div className='w-[15vw] h-screen text-white bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg shadow-black/20 flex items-center justify-center'>
                 <ul className=' flex flex-col gap-10'>
-                    <li className='bg-white/20 backdrop-blur-sm border border-white/30  shadow-black/20 p-4 rounded-full text-black font-bold'>
+                    <li className='bg-white/20 backdrop-blur-sm border border-white/30  shadow-black/20 p-4 rounded-full text-black font-bold text-center'>
                         Team Info
                     </li>
-                    <li className='bg-white/20 backdrop-blur-sm border border-white/30  shadow-black/20 p-4 rounded-full text-black font-bold'>
+                    <li className='bg-white/20 backdrop-blur-sm border border-white/30  shadow-black/20 p-4 rounded-full text-black font-bold text-center'>
                         Round 2
                     </li>
-                    <li className='bg-white/20 backdrop-blur-sm border border-white/30  shadow-black/20 p-4 rounded-full text-black font-bold'>
+                    <li className='bg-white/20 backdrop-blur-sm border border-white/30  shadow-black/20 p-4 rounded-full text-black font-bold text-center'>
                         Round 3
                     </li>
                 </ul>

@@ -3,14 +3,16 @@ import Patran from '../components/Patran'
 import Debug from '../components/debug'
 import Trace from '../components/Trace'
 import Program from '../components/Program'
+import Round2 from '../components/Round2'
 
 const Round_2Page = () => {
   return (
    <div>
-    <Patran />
+    {/* <Patran />
     <Debug />
     <Trace />
-    <Program />
+    <Program /> */}
+    <Round2 />
    </div>
   )
 }
