@@ -9,6 +9,7 @@ import { notFound, errorHandler } from './middleware/errorHandler.js';
 // Import routes
 import authRoutes from './routes/auth.js';
 import competitionRoutes from './routes/competition.js';
+import round3Routes from './routes/round3.js';
 
 // Load environment variables
 // dotenv.config({ path: './config.env' });
@@ -39,6 +40,7 @@ const corsOptions = {
         'http://localhost:5173',
         'http://localhost:5174',
         'http://localhost:5175',
+        'http://localhost:5176',
         'http://localhost:3000',
         process.env.FRONTEND_URL
     ].filter(Boolean), // Remove undefined values
@@ -64,6 +66,7 @@ app.get('/api/health', (req, res) => {
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/competition', competitionRoutes);
+app.use('/api/round3', round3Routes);
 
 // 404 handler
 app.use(notFound);

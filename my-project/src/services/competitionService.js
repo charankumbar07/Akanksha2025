@@ -41,6 +41,36 @@ class CompetitionService {
         }
     }
 
+    // Submit Round 3 results
+    async submitRound3(round3Data) {
+        try {
+            const response = await apiService.post('/round3/submit', round3Data);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Get Round 3 scores
+    async getRound3Scores() {
+        try {
+            const response = await apiService.get('/round3/scores');
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Verify Round 3 access code
+    async verifyRound3Code(code) {
+        try {
+            const response = await apiService.post('/competition/verify-round3-code', { code });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Health check
     async healthCheck() {
         try {

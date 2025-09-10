@@ -92,6 +92,46 @@ const teamSchema = new mongoose.Schema({
             type: Number,
             default: 0
         }
+    },
+    // Round 3 specific fields
+    round3Score: {
+        type: Number,
+        default: 0
+    },
+    round3Time: {
+        type: Number,
+        default: 0
+    },
+    round3Program: {
+        type: String,
+        default: ''
+    },
+    round3QuestionOrder: {
+        type: Number,
+        default: null
+    },
+    round3QuestionOrderName: {
+        type: String,
+        default: ''
+    },
+    round3QuestionResults: [{
+        questionIndex: Number,
+        blockIndex: Number,
+        selectedAnswer: String,
+        isCorrect: Boolean,
+        timeTaken: Number
+    }],
+    round3IndividualScores: [{
+        questionIndex: Number,
+        score: Number,
+        timeTaken: Number
+    }],
+    round3Completed: {
+        type: Boolean,
+        default: false
+    },
+    round3SubmittedAt: {
+        type: Date
     }
 }, {
     timestamps: true
