@@ -61,6 +61,16 @@ class CompetitionService {
         }
     }
 
+    // Verify Round 3 access code
+    async verifyRound3Code(code) {
+        try {
+            const response = await apiService.post('/competition/verify-round3-code', { code });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Health check
     async healthCheck() {
         try {

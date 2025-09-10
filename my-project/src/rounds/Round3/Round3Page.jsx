@@ -741,7 +741,7 @@ const Round3Page = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans p-4 flex flex-col items-center justify-center">
       <div className="w-full max-w-6xl p-8 bg-gray-800 rounded-xl shadow-lg">
         <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-4 text-indigo-400">
-          Round 3: C Code Logic Match
+          Round 3: CODE RUSH
         </h1>
         <p className="text-xl text-center mb-8 text-gray-300">
           Complete 5 C programming puzzles. Each question has a 5-minute timer.

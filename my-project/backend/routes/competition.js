@@ -117,6 +117,42 @@ const updateCompetitionStatus = async (req, res) => {
     }
 };
 
+// @desc    Verify Round 3 access code
+// @route   POST /api/competition/verify-round3-code
+// @access  Private
+const verifyRound3Code = async (req, res) => {
+    try {
+        const { code } = req.body;
+        const team = req.team;
+
+        // Note: Round 2 completion constraint removed - any authenticated team can access Round 3 with correct code
+
+        // Verify the access code
+        if (code && code.trim().toLowerCase() === 'x24') {
+            res.status(200).json({
+                success: true,
+                message: 'Access code verified successfully',
+                data: {
+                    verified: true,
+                    teamName: team.teamName
+                }
+            });
+        } else {
+            res.status(400).json({
+                success: false,
+                message: 'Invalid access code'
+            });
+        }
+
+    } catch (error) {
+        console.error('Verify Round 3 code error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error while verifying access code'
+        });
+    }
+};
+
 // @desc    Get competition statistics
 // @route   GET /api/competition/stats
 // @access  Public
@@ -166,5 +202,6 @@ router.get('/leaderboard', getLeaderboard);
 router.get('/stats', getCompetitionStats);
 router.get('/status', protect, checkNotDisqualified, getCompetitionStatus);
 router.put('/status', protect, checkNotDisqualified, updateCompetitionStatus);
+router.post('/verify-round3-code', protect, checkNotDisqualified, verifyRound3Code);
 
 export default router;

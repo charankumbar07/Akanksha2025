@@ -2,6 +2,7 @@ import classNames from 'classnames/bind'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import CodeVerification from '../components/CodeVerification'
 
 const ResultPage = () => {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ const ResultPage = () => {
     round2: { status: 'pending', result: null },
     round3: { status: 'pending', result: null }
   })
+  const [showCodeVerification, setShowCodeVerification] = useState(false)
 
   useEffect(() => {
     // Get team name from localStorage (set during login)
@@ -24,11 +26,20 @@ const ResultPage = () => {
   const handleStartRound = (roundNumber) => {
     console.log(`Starting Round ${roundNumber}`)
     if (roundNumber === 3) {
-      navigate('/round-3')
+      setShowCodeVerification(true)
     } else {
       // For other rounds, show placeholder
       alert(`Starting Round ${roundNumber} for ${teamName}`)
     }
+  }
+
+  const handleCodeVerified = () => {
+    setShowCodeVerification(false)
+    navigate('/round-3')
+  }
+
+  const handleCodeVerificationCancel = () => {
+    setShowCodeVerification(false)
   }
 
   const getRoundStatus = (round) => {
@@ -133,6 +144,14 @@ const ResultPage = () => {
           Complete each round to unlock the next one. Good luck!
         </p>
       </div>
+
+      {/* Code Verification Modal */}
+      {showCodeVerification && (
+        <CodeVerification
+          onCodeVerified={handleCodeVerified}
+          onCancel={handleCodeVerificationCancel}
+        />
+      )}
     </div>
   )
 }
