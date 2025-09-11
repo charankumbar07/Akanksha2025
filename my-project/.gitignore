@@ -95,3 +95,8 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Development folders (not needed in repo)
+../my-app/
+../my-app-backup/
+../quiz-3/
