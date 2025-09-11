@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
-import Round_2Page from './pages/Round_2Page';
+import Round2Page from './rounds/Round2/Round2Page';
+import Round2AdminPage from './rounds/Round2/components/AdminDashboard';
 import Round3Page from './rounds/Round3/Round3Page';
 import ResultPage from './pages/ResultPage';
 import AdminPage from './pages/AdminPage';
@@ -15,7 +16,8 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/round-2" element={<Round_2Page />} />
+        <Route path="/round-2" element={<Round2Page />} />
+        <Route path="/round2/admin" element={<Round2AdminPage />} />
         <Route path="/round-3" element={<Round3Page />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/admin" element={<AdminPage />} />

@@ -25,7 +25,9 @@ const ResultPage = () => {
 
   const handleStartRound = (roundNumber) => {
     console.log(`Starting Round ${roundNumber}`)
-    if (roundNumber === 3) {
+    if (roundNumber === 2) {
+      navigate('/round-2')
+    } else if (roundNumber === 3) {
       setShowCodeVerification(true)
     } else {
       // For other rounds, show placeholder
