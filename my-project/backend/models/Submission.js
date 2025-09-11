@@ -73,3 +73,4 @@ submissionSchema.index({ round2Team: 1 });
 submissionSchema.index({ questionNumber: 1 });
 
 export default mongoose.model('Submission', submissionSchema);
+

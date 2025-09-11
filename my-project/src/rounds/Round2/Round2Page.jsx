@@ -61,7 +61,7 @@ const Round2Page = () => {
             const response = await round2Service.getTeamProgress(teamId);
             setTeamProgress(response.team);
             setIsQuizCompleted(response.team.isQuizCompleted);
-            
+
             // Set quiz start time if not already set and quiz is not completed
             if (!quizStartTime && !response.team.isQuizCompleted) {
                 setQuizStartTime(new Date());
