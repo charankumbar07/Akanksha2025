@@ -1,17 +1,37 @@
-# 🏆 Hustle Competition Platform
+# 🏆 HUSTLE Competition Platform - Complete Unified Application
 
-A full-stack MERN application for managing technical competition registrations with team-based authentication and competition tracking.
+> 🎯 **This is the single, complete application folder containing the entire HUSTLE competition platform with all rounds integrated.**
 
-## 🚀 Features
+A full-stack MERN application for managing technical competition registrations with team-based authentication and competition tracking. This unified platform includes all competition rounds, team management, admin dashboard, and progressive round unlocking system.
 
-- **Team Registration**: Complete team registration with 2 members
-- **Authentication**: JWT-based secure authentication
-- **Competition Management**: Track team status and scores across rounds
-- **Round 2: Technical Challenge**: Aptitude questions and coding challenges
-- **Round 3: CODE RUSH**: Special coding challenge with access code "x24"
-- **Modern UI**: Glassmorphism design with Tailwind CSS
-- **Responsive Design**: Mobile-first approach
-- **Real-time Validation**: Client and server-side validation
+## 🚀 Unified Platform Features
+
+### 🔐 Authentication & Team Management
+- **Team Registration**: Complete team signup with member details and validation
+- **Team Login**: Secure JWT-based authentication with token management
+- **Team Dashboard**: Unified dashboard at `/team` showing all rounds and progress
+- **Admin Portal**: Secure admin access with credentials (`admin` / `admin123`)
+- **Logout Functionality**: Clean session termination with header logout button
+
+### 🎯 Progressive Competition System
+- **Round 1 (Offline)**: Registration confirmation with result checking system
+- **Round 2 (Online Assessment)**: Aptitude, Debug, Program, and Trace challenges
+- **Round 3 (Final Challenge)**: Advanced coding challenge with access code "x24"
+- **Progressive Unlocking**: Teams must complete previous rounds to unlock next ones
+- **Result Checking**: Teams can check qualification status and unlock next rounds
+
+### 🎨 Modern User Interface
+- **Unified Design**: Consistent theme across all pages with gradient backgrounds
+- **SVG Icons**: Professional iconography throughout (no emojis)
+- **Responsive Layout**: Mobile-first design that works on all devices
+- **Clean Navigation**: Header with team name and logout, simple footer
+- **Visual Feedback**: Color-coded round status (green=qualified, red=disqualified, etc.)
+
+### 🛠️ Technical Features
+- **Real-time Validation**: Client and server-side form validation
+- **Progress Persistence**: Team progress saved in localStorage and backend
+- **API Integration**: Complete backend integration for all competition features
+- **Security**: Protected routes, secure admin access, token management
 
 ## 🛠️ Tech Stack
 
