@@ -6,6 +6,7 @@ import Trace from "./components/Trace";
 import Program from "./components/Program";
 import GlobalTimer from "./components/GlobalTimer";
 import round2Service from "../../services/round2Service";
+import authService from "../../services/authService";
 
 const Round2Page = () => {
     const navigate = useNavigate();
@@ -19,15 +20,27 @@ const Round2Page = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [teamProgress, setTeamProgress] = useState(null);
     const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Get team info from localStorage (set during login)
+    // Check authentication and get team info
     useEffect(() => {
+        // Check if user is authenticated
+        if (!authService.isAuthenticated()) {
+            console.log('User not authenticated, redirecting to login');
+            navigate('/login');
+            return;
+        }
+
+        // Get team info from localStorage (set during login)
         const storedTeam = localStorage.getItem('hustle_team');
         if (storedTeam) {
             const teamData = JSON.parse(storedTeam);
             setTeamName(teamData.teamName || 'Unknown Team');
+            setTeamId(teamData._id); // Set team ID from stored data
         }
-    }, []);
+        
+        setIsLoading(false);
+    }, [navigate]);
 
     useEffect(() => {
         if (teamId) {
@@ -65,12 +78,12 @@ const Round2Page = () => {
                 questionIndex: currentQuestion,
                 answer: selected
             });
-            console.log('Aptitude response:', response.data);
+            console.log('Aptitude response:', response);
 
             // Reload team progress to get updated state
             await loadTeamProgress(teamId);
 
-            if (response.data.isCorrect) {
+            if (response.isCorrect) {
                 setCompletedAptitudeQuestions(prev => [...prev, currentQuestion]);
                 console.log('Answer correct, marking question as completed');
 
@@ -81,8 +94,8 @@ const Round2Page = () => {
                     setCurrentChallenge(nextChallenge);
                 }
             } else {
-                console.log('Answer incorrect, attempts left:', response.data.attemptsLeft);
-                if (response.data.attemptsLeft === 0) {
+                console.log('Answer incorrect, attempts left:', response.attemptsLeft);
+                if (response.attemptsLeft === 0) {
                     // Automatically move to the unlocked challenge even if failed
                     const challengeMap = { 0: 'debug', 1: 'trace', 2: 'program' };
                     const nextChallenge = challengeMap[currentQuestion];
@@ -113,7 +126,7 @@ const Round2Page = () => {
             setCompletedChallenges(prev => [...prev, currentChallenge]);
             setCurrentChallenge(null);
 
-            if (response.data.isQuizCompleted) {
+            if (response.isQuizCompleted) {
                 setIsQuizCompleted(true);
             } else {
                 // Automatically move to the next aptitude question
@@ -221,6 +234,18 @@ const Round2Page = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Show loading screen while checking authentication
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-400 mx-auto mb-4"></div>
+                    <div className="text-cyan-400 text-xl font-semibold">Loading...</div>
                 </div>
             </div>
         );
