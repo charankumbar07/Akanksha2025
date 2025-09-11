@@ -8,7 +8,7 @@ int main() {
     
     return 0;
 }`);
-    const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+    const [timeLeft, setTimeLeft] = useState(1500); // 25 minutes
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [startTime] = useState(Date.now());
 
@@ -36,7 +36,7 @@ int main() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-900 via-slate-900 to-slate-900 flex flex-col">
+        <div className="h-screen bg-gradient-to-br from-green-900 via-slate-900 to-slate-900 flex flex-col">
             {/* Header */}
             <div className="bg-slate-800 border-b border-slate-700 p-4">
                 <div className="flex justify-between items-center max-w-6xl mx-auto">

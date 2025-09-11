@@ -21,6 +21,7 @@ const Round2Page = () => {
     const [teamProgress, setTeamProgress] = useState(null);
     const [isQuizCompleted, setIsQuizCompleted] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [showCompletionModal, setShowCompletionModal] = useState(false);
 
     // Check authentication and get team info
     useEffect(() => {
@@ -38,7 +39,7 @@ const Round2Page = () => {
             setTeamName(teamData.teamName || 'Unknown Team');
             setTeamId(teamData._id); // Set team ID from stored data
         }
-        
+
         setIsLoading(false);
     }, [navigate]);
 
@@ -48,18 +49,42 @@ const Round2Page = () => {
         }
     }, [teamId]);
 
+    // Show completion modal when quiz is completed
+    useEffect(() => {
+        if (isQuizCompleted) {
+            setShowCompletionModal(true);
+        }
+    }, [isQuizCompleted]);
+
     const loadTeamProgress = async (teamId) => {
         try {
             const response = await round2Service.getTeamProgress(teamId);
             setTeamProgress(response.data);
             setIsQuizCompleted(response.data.isQuizCompleted);
+            
+            // Set quiz start time if not already set and quiz is not completed
+            if (!quizStartTime && !response.data.isQuizCompleted) {
+                setQuizStartTime(new Date());
+            }
         } catch (error) {
             console.error('Error loading team progress:', error);
         }
     };
 
+    const resetQuizState = () => {
+        setCurrentQuestion(0);
+        setCurrentChallenge(null);
+        setCompletedChallenges([]);
+        setCompletedAptitudeQuestions([]);
+        setIsQuizCompleted(false);
+        setShowCompletionModal(false);
+    };
+
     const handleTeamRegistration = async (name) => {
         try {
+            // Reset quiz state for new team
+            resetQuizState();
+            
             const response = await round2Service.createTeam({ teamName: name });
             setTeamId(response.data._id);
             setTeamName(name);
@@ -96,12 +121,17 @@ const Round2Page = () => {
             } else {
                 console.log('Answer incorrect, attempts left:', response.attemptsLeft);
                 if (response.attemptsLeft === 0) {
+                    // Show failure message
+                    alert(`❌ You failed to solve the aptitude question!\n\nYou have used all 2 attempts. The challenge will be unlocked anyway.`);
                     // Automatically move to the unlocked challenge even if failed
                     const challengeMap = { 0: 'debug', 1: 'trace', 2: 'program' };
                     const nextChallenge = challengeMap[currentQuestion];
                     if (nextChallenge) {
                         setCurrentChallenge(nextChallenge);
                     }
+                } else {
+                    // Show partial failure message
+                    alert(`❌ Incorrect answer!\n\nYou have ${response.attemptsLeft} attempt(s) remaining.`);
                 }
             }
         } catch (error) {
@@ -280,6 +310,10 @@ const Round2Page = () => {
 
                         const aptitudeCompleted = teamProgress ? teamProgress.completedQuestions?.[aptitudeKey] : false;
                         const challengeCompleted = teamProgress ? teamProgress.completedQuestions?.[challengeKey] : false;
+                        
+                        // Check if aptitude was attempted (even if failed)
+                        const aptitudeAttempted = teamProgress ? (teamProgress.aptitudeAttempts?.[aptitudeKey] || 0) > 0 : false;
+                        const challengeAttempted = teamProgress ? (teamProgress.codingAttempts?.[challengeKey] || 0) > 0 : false;
 
                         // Sequential unlocking logic
                         const aptitudeUnlocked = teamProgress ? teamProgress.unlockedQuestions?.[aptitudeKey] : (pair.aptitude === 0);
@@ -302,9 +336,11 @@ const Round2Page = () => {
                                         ? 'border-cyan-400 shadow-lg bg-slate-700 cursor-pointer'
                                         : aptitudeCompleted
                                             ? 'border-green-600 bg-green-600/20'
-                                            : aptitudeUnlocked
-                                                ? 'border-slate-600 bg-slate-700 cursor-pointer hover:border-cyan-300'
-                                                : 'border-slate-600 bg-slate-500/30 opacity-50'
+                                            : aptitudeAttempted
+                                                ? 'border-yellow-600 bg-yellow-600/20'
+                                                : aptitudeUnlocked
+                                                    ? 'border-slate-600 bg-slate-700 cursor-pointer hover:border-cyan-300'
+                                                    : 'border-slate-600 bg-slate-500/30 opacity-50'
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">
@@ -319,7 +355,14 @@ const Round2Page = () => {
                                                 <div className="ml-2 flex items-center space-x-1">
                                                     <span className="text-xs text-cyan-400">Click to solve</span>
                                                     <span className="text-xs text-yellow-400">
-                                                        ({2 - (teamProgress?.aptitudeAttempts?.[aptitudeKey] || 0)}/2 chances)
+                                                        (Attempts: {teamProgress?.aptitudeAttempts?.[aptitudeKey] || 0}/2)
+                                                    </span>
+                                                </div>
+                                            )}
+                                            {aptitudeAttempted && !aptitudeCompleted && (
+                                                <div className="ml-2 flex items-center space-x-1">
+                                                    <span className="text-xs text-yellow-400">
+                                                        (Attempted: {teamProgress?.aptitudeAttempts?.[aptitudeKey] || 0}/2)
                                                     </span>
                                                 </div>
                                             )}
@@ -340,9 +383,11 @@ const Round2Page = () => {
                                         ? 'border-cyan-400 shadow-lg bg-slate-700'
                                         : challengeCompleted
                                             ? 'border-green-600 bg-green-600/20'
-                                            : challengeUnlocked
-                                                ? 'border-slate-600 bg-slate-700 cursor-pointer hover:border-cyan-300'
-                                                : 'border-slate-600 bg-slate-500/30 opacity-50'
+                                            : challengeAttempted
+                                                ? 'border-yellow-600 bg-yellow-600/20'
+                                                : challengeUnlocked
+                                                    ? 'border-slate-600 bg-slate-700 cursor-pointer hover:border-cyan-300'
+                                                    : 'border-slate-600 bg-slate-500/30 opacity-50'
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">
@@ -367,7 +412,7 @@ const Round2Page = () => {
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-hidden">
                 {currentChallenge ? (
                     currentChallenge === 'debug' ? (
                         <Debug onSubmit={handleCodeSubmit} teamId={teamId} />
@@ -413,6 +458,40 @@ const Round2Page = () => {
                     />
                 )}
             </div>
+
+            {/* Completion Modal */}
+            {showCompletionModal && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="bg-slate-800 rounded-2xl p-8 max-w-md mx-auto shadow-2xl border border-slate-700">
+                        <div className="text-center">
+                            <div className="text-6xl mb-4">🎉</div>
+                            <h2 className="text-3xl font-bold text-green-400 mb-4">
+                                Congratulations!
+                            </h2>
+                            <p className="text-slate-300 text-lg mb-6">
+                                You have successfully completed Round 2!
+                            </p>
+                            <div className="bg-slate-700 rounded-lg p-4 mb-6">
+                                <p className="text-cyan-400 font-semibold">
+                                    Your responses have been submitted and recorded.
+                                </p>
+                                <p className="text-slate-400 text-sm mt-2">
+                                    Thank you for participating in the Hustle Competition!
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setShowCompletionModal(false);
+                                    navigate('/result');
+                                }}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
+                            >
+                                View Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

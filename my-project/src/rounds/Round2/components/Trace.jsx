@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const Trace = ({ onSubmit, teamId }) => {
     const [trace, setTrace] = useState('');
-    const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+    const [timeLeft, setTimeLeft] = useState(900); // 15 minutes
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [startTime] = useState(Date.now());
 
@@ -30,7 +30,7 @@ const Trace = ({ onSubmit, teamId }) => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-yellow-900 via-slate-900 to-slate-900 flex flex-col">
+        <div className="h-screen bg-gradient-to-br from-yellow-900 via-slate-900 to-slate-900 flex flex-col">
             {/* Header */}
             <div className="bg-slate-800 border-b border-slate-700 p-4">
                 <div className="flex justify-between items-center max-w-6xl mx-auto">

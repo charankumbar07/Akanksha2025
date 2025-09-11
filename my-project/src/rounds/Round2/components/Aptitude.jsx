@@ -85,7 +85,7 @@ const Aptitude = ({ questionStep, onSubmit, teamProgress }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
+        <div className="h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
                 <div className="bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
                     {/* Header */}
