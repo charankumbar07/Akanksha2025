@@ -11,10 +11,20 @@ class Round2Service {
         }
     }
 
-    // Get team progress
+    // Get team progress (matching quiz3 structure)
     async getTeamProgress(teamId) {
         try {
-            const response = await apiService.get(`/round2/teams/${teamId}`);
+            const response = await apiService.get(`/round2/team/${teamId}/progress`);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Get aptitude question
+    async getAptitudeQuestion(step) {
+        try {
+            const response = await apiService.get(`/round2/apt/${step}`);
             return response;
         } catch (error) {
             throw error;
@@ -35,6 +45,16 @@ class Round2Service {
     async submitCodingSolution(solutionData) {
         try {
             const response = await apiService.post('/round2/coding/submit', solutionData);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Auto-save coding solution
+    async autoSaveCodingSolution(solutionData) {
+        try {
+            const response = await apiService.post('/round2/coding/autosave', solutionData);
             return response;
         } catch (error) {
             throw error;

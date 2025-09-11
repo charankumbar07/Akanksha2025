@@ -102,3 +102,23 @@ export const checkNotDisqualified = (req, res, next) => {
     }
     next();
 };
+
+// Middleware to check admin access (simple implementation)
+// In a real app, you'd have proper admin authentication
+export const adminAuth = async (req, res, next) => {
+    try {
+        // For now, we'll use the same protect middleware
+        // In production, you'd check for admin role/permissions
+        await protect(req, res, () => {
+            // Add admin check logic here if needed
+            // For now, any authenticated user can access admin routes
+            next();
+        });
+    } catch (error) {
+        console.error('Admin auth error:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error in admin authentication.'
+        });
+    }
+};

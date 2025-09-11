@@ -48,3 +48,86 @@ export const getRound3Scores = async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 };
+
+// @desc    Get all Round 3 results for admin
+// @route   GET /api/round3/admin/results
+// @access  Private (Admin)
+export const getAllRound3Results = async (req, res) => {
+    try {
+        const teams = await Team.find({ round3Completed: true })
+            .select('teamName members leader round3Score round3Time round3SubmittedAt round3QuestionOrderName round3Program')
+            .sort({ round3Score: -1, round3Time: 1 });
+
+        res.status(200).json({
+            success: true,
+            data: {
+                teams,
+                count: teams.length
+            }
+        });
+    } catch (error) {
+        console.error('Get all Round 3 results error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error while fetching Round 3 results'
+        });
+    }
+};
+
+// @desc    Update Round 3 score for a team (Admin only)
+// @route   POST /api/round3/admin/update-score/:teamId
+// @access  Private (Admin)
+export const updateRound3Score = async (req, res) => {
+    try {
+        const { teamId } = req.params;
+        const { score } = req.body;
+
+        if (!score || isNaN(score) || score < 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Valid score is required'
+            });
+        }
+
+        const updatedTeam = await Team.findByIdAndUpdate(
+            teamId,
+            {
+                $set: {
+                    round3Score: parseInt(score),
+                    'scores.round3': parseInt(score)
+                }
+            },
+            { new: true }
+        ).select('teamName round3Score scores');
+
+        if (!updatedTeam) {
+            return res.status(404).json({
+                success: false,
+                message: 'Team not found'
+            });
+        }
+
+        // Update total score
+        const totalScore = (updatedTeam.scores.round1 || 0) +
+            (updatedTeam.scores.round2 || 0) +
+            (updatedTeam.scores.round3 || 0);
+
+        await Team.findByIdAndUpdate(teamId, { 'scores.total': totalScore });
+
+        res.status(200).json({
+            success: true,
+            message: 'Round 3 score updated successfully',
+            data: {
+                team: updatedTeam,
+                totalScore
+            }
+        });
+
+    } catch (error) {
+        console.error('Update Round 3 score error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error while updating Round 3 score'
+        });
+    }
+};

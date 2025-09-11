@@ -59,11 +59,11 @@ const Round2Page = () => {
     const loadTeamProgress = async (teamId) => {
         try {
             const response = await round2Service.getTeamProgress(teamId);
-            setTeamProgress(response.data);
-            setIsQuizCompleted(response.data.isQuizCompleted);
+            setTeamProgress(response.team);
+            setIsQuizCompleted(response.team.isQuizCompleted);
             
             // Set quiz start time if not already set and quiz is not completed
-            if (!quizStartTime && !response.data.isQuizCompleted) {
+            if (!quizStartTime && !response.team.isQuizCompleted) {
                 setQuizStartTime(new Date());
             }
         } catch (error) {
@@ -84,7 +84,7 @@ const Round2Page = () => {
         try {
             // Reset quiz state for new team
             resetQuizState();
-            
+
             const response = await round2Service.createTeam({ teamName: name });
             setTeamId(response.data._id);
             setTeamName(name);
@@ -108,7 +108,7 @@ const Round2Page = () => {
             // Reload team progress to get updated state
             await loadTeamProgress(teamId);
 
-            if (response.isCorrect) {
+            if (response.correct) {
                 setCompletedAptitudeQuestions(prev => [...prev, currentQuestion]);
                 console.log('Answer correct, marking question as completed');
 
@@ -310,7 +310,7 @@ const Round2Page = () => {
 
                         const aptitudeCompleted = teamProgress ? teamProgress.completedQuestions?.[aptitudeKey] : false;
                         const challengeCompleted = teamProgress ? teamProgress.completedQuestions?.[challengeKey] : false;
-                        
+
                         // Check if aptitude was attempted (even if failed)
                         const aptitudeAttempted = teamProgress ? (teamProgress.aptitudeAttempts?.[aptitudeKey] || 0) > 0 : false;
                         const challengeAttempted = teamProgress ? (teamProgress.codingAttempts?.[challengeKey] || 0) > 0 : false;

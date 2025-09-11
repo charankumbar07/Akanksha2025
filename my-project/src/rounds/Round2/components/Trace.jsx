@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import round2Service from '../../../services/round2Service';
 
 const Trace = ({ onSubmit, teamId }) => {
     const [trace, setTrace] = useState('');
@@ -14,6 +15,25 @@ const Trace = ({ onSubmit, teamId }) => {
             handleSubmit();
         }
     }, [timeLeft, isSubmitted]);
+
+    // Auto-save every 2 seconds
+    useEffect(() => {
+        if (!isSubmitted && teamId) {
+            const autoSaveInterval = setInterval(() => {
+                const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+                round2Service.autoSaveCodingSolution({
+                    teamId,
+                    challengeType: 'trace',
+                    solution: trace,
+                    timeTaken
+                }).catch(error => {
+                    console.error('Auto-save failed:', error);
+                });
+            }, 2000);
+
+            return () => clearInterval(autoSaveInterval);
+        }
+    }, [trace, teamId, isSubmitted, startTime]);
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -94,8 +114,8 @@ const Trace = ({ onSubmit, teamId }) => {
                             onClick={handleSubmit}
                             disabled={isSubmitted}
                             className={`px-8 py-3 rounded-lg font-bold text-lg transition duration-300 ${isSubmitted
-                                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                                    : 'bg-yellow-600 hover:bg-yellow-700 text-white'
+                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                : 'bg-yellow-600 hover:bg-yellow-700 text-white'
                                 }`}
                         >
                             {isSubmitted ? 'Submitted ✓' : 'Submit Trace'}

@@ -226,10 +226,10 @@ const AdminPage = () => {
                                 <td className="px-6 py-4 text-white/80">{team.members.member2.name}</td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${team.competitionStatus === 'registered' ? 'bg-yellow-500/20 text-yellow-300' :
-                                            team.competitionStatus === 'round1_completed' ? 'bg-blue-500/20 text-blue-300' :
-                                                team.competitionStatus === 'round2_completed' ? 'bg-green-500/20 text-green-300' :
-                                                    team.competitionStatus === 'round3_completed' ? 'bg-purple-500/20 text-purple-300' :
-                                                        'bg-red-500/20 text-red-300'
+                                        team.competitionStatus === 'round1_completed' ? 'bg-blue-500/20 text-blue-300' :
+                                            team.competitionStatus === 'round2_completed' ? 'bg-green-500/20 text-green-300' :
+                                                team.competitionStatus === 'round3_completed' ? 'bg-purple-500/20 text-purple-300' :
+                                                    'bg-red-500/20 text-red-300'
                                         }`}>
                                         {team.competitionStatus.replace('_', ' ').toUpperCase()}
                                     </span>
@@ -293,8 +293,8 @@ const AdminPage = () => {
                                     <td className="px-6 py-4 text-white font-bold">{team.scores?.total || 0}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${team.competitionStatus === 'round2_completed' ? 'bg-green-500/20 text-green-300' :
-                                                team.competitionStatus === 'round3_completed' ? 'bg-purple-500/20 text-purple-300' :
-                                                    'bg-yellow-500/20 text-yellow-300'
+                                            team.competitionStatus === 'round3_completed' ? 'bg-purple-500/20 text-purple-300' :
+                                                'bg-yellow-500/20 text-yellow-300'
                                             }`}>
                                             {team.competitionStatus.replace('_', ' ').toUpperCase()}
                                         </span>
@@ -387,8 +387,8 @@ const AdminPage = () => {
                     <button
                         onClick={() => setActiveTab('dashboard')}
                         className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'dashboard'
-                                ? 'bg-white/30 text-white font-semibold'
-                                : 'text-white/80 hover:bg-white/10 hover:text-white'
+                            ? 'bg-white/30 text-white font-semibold'
+                            : 'text-white/80 hover:bg-white/10 hover:text-white'
                             }`}
                     >
                         Dashboard
@@ -396,8 +396,8 @@ const AdminPage = () => {
                     <button
                         onClick={() => setActiveTab('team-manage')}
                         className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'team-manage'
-                                ? 'bg-white/30 text-white font-semibold'
-                                : 'text-white/80 hover:bg-white/10 hover:text-white'
+                            ? 'bg-white/30 text-white font-semibold'
+                            : 'text-white/80 hover:bg-white/10 hover:text-white'
                             }`}
                     >
                         Team Manage
@@ -405,8 +405,8 @@ const AdminPage = () => {
                     <button
                         onClick={() => setActiveTab('round2-results')}
                         className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'round2-results'
-                                ? 'bg-white/30 text-white font-semibold'
-                                : 'text-white/80 hover:bg-white/10 hover:text-white'
+                            ? 'bg-white/30 text-white font-semibold'
+                            : 'text-white/80 hover:bg-white/10 hover:text-white'
                             }`}
                     >
                         Round 2 Results
@@ -414,11 +414,17 @@ const AdminPage = () => {
                     <button
                         onClick={() => setActiveTab('round3-results')}
                         className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${activeTab === 'round3-results'
-                                ? 'bg-white/30 text-white font-semibold'
-                                : 'text-white/80 hover:bg-white/10 hover:text-white'
+                            ? 'bg-white/30 text-white font-semibold'
+                            : 'text-white/80 hover:bg-white/10 hover:text-white'
                             }`}
                     >
                         Round 3 Results
+                    </button>
+                    <button
+                        onClick={() => navigate('/admin/round3')}
+                        className="w-full text-left px-4 py-3 rounded-lg transition-colors text-white/80 hover:bg-white/10 hover:text-white"
+                    >
+                        Round 3 Admin
                     </button>
                 </nav>
             </div>

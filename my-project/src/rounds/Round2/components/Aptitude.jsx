@@ -30,15 +30,21 @@ const Aptitude = ({ questionStep, onSubmit, teamProgress }) => {
         const fetchQuestion = async () => {
             try {
                 setLoading(true);
-                // Use local questions instead of API call
-                const questionData = aptitudeQuestions[questionStep];
-                if (questionData) {
-                    setQuestion(questionData);
+                // Fetch question from API
+                const response = await round2Service.getAptitudeQuestion(questionStep);
+                if (response) {
+                    setQuestion(response);
                     setSelected(null);
                 }
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching question:', error);
+                // Fallback to local questions if API fails
+                const questionData = aptitudeQuestions[questionStep];
+                if (questionData) {
+                    setQuestion(questionData);
+                    setSelected(null);
+                }
                 setLoading(false);
             }
         };
@@ -115,14 +121,14 @@ const Aptitude = ({ questionStep, onSubmit, teamProgress }) => {
                                         key={index}
                                         onClick={() => handleOptionClick(index)}
                                         className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-200 transform hover:scale-[1.02] ${selected === index
-                                                ? 'border-cyan-400 bg-cyan-400/10 shadow-lg'
-                                                : 'border-slate-600 bg-slate-700 hover:border-cyan-300 hover:bg-slate-600'
+                                            ? 'border-cyan-400 bg-cyan-400/10 shadow-lg'
+                                            : 'border-slate-600 bg-slate-700 hover:border-cyan-300 hover:bg-slate-600'
                                             }`}
                                     >
                                         <div className="flex items-center">
                                             <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center ${selected === index
-                                                    ? 'border-cyan-400 bg-cyan-400'
-                                                    : 'border-slate-400'
+                                                ? 'border-cyan-400 bg-cyan-400'
+                                                : 'border-slate-400'
                                                 }`}>
                                                 {selected === index && (
                                                     <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -143,8 +149,8 @@ const Aptitude = ({ questionStep, onSubmit, teamProgress }) => {
                                 onClick={handleSubmit}
                                 disabled={selected === null || submitting}
                                 className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${selected === null || submitting
-                                        ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                                        : 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
+                                    ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                                    : 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
                                     }`}
                             >
                                 {submitting ? (
