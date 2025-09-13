@@ -8,16 +8,15 @@ import connectDB from './config/database.js';
 // Load environment variables
 dotenv.config({ path: './config.env' });
 console.log('Environment loaded. MONGODB_URI:', process.env.MONGODB_URI);
+
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
 import competitionRoutes from './routes/competition.js';
+import round2Routes from './routes/round2.js';
 import round3Routes from './routes/round3.js';
-
-// Load environment variables
-// dotenv.config({ path: './config.env' });
-dotenv.config();
+import adminRoutes from './routes/admin.js';
 
 // Connect to database
 connectDB();
@@ -70,7 +69,9 @@ app.get('/api/health', (req, res) => {
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/competition', competitionRoutes);
+app.use('/api/round2', round2Routes);
 app.use('/api/round3', round3Routes);
+app.use('/api/admin', adminRoutes);
 
 // 404 handler
 app.use(notFound);

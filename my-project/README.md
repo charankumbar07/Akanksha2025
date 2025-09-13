@@ -1,16 +1,37 @@
-# 🏆 Hustle Competition Platform
+# 🏆 HUSTLE Competition Platform - Complete Unified Application
 
-A full-stack MERN application for managing technical competition registrations with team-based authentication and competition tracking.
+> 🎯 **This is the single, complete application folder containing the entire HUSTLE competition platform with all rounds integrated.**
 
-## 🚀 Features
+A full-stack MERN application for managing technical competition registrations with team-based authentication and competition tracking. This unified platform includes all competition rounds, team management, admin dashboard, and progressive round unlocking system.
 
-- **Team Registration**: Complete team registration with 2 members
-- **Authentication**: JWT-based secure authentication
-- **Competition Management**: Track team status and scores across rounds
-- **Round 3: CODE RUSH**: Special coding challenge with access code "x24"
-- **Modern UI**: Glassmorphism design with Tailwind CSS
-- **Responsive Design**: Mobile-first approach
-- **Real-time Validation**: Client and server-side validation
+## 🚀 Unified Platform Features
+
+### 🔐 Authentication & Team Management
+- **Team Registration**: Complete team signup with member details and validation
+- **Team Login**: Secure JWT-based authentication with token management
+- **Team Dashboard**: Unified dashboard at `/team` showing all rounds and progress
+- **Admin Portal**: Secure admin access with credentials (`admin` / `admin123`)
+- **Logout Functionality**: Clean session termination with header logout button
+
+### 🎯 Progressive Competition System
+- **Round 1 (Offline)**: Registration confirmation with result checking system
+- **Round 2 (Online Assessment)**: Aptitude, Debug, Program, and Trace challenges
+- **Round 3 (Final Challenge)**: Advanced coding challenge with access code "x24"
+- **Progressive Unlocking**: Teams must complete previous rounds to unlock next ones
+- **Result Checking**: Teams can check qualification status and unlock next rounds
+
+### 🎨 Modern User Interface
+- **Unified Design**: Consistent theme across all pages with gradient backgrounds
+- **SVG Icons**: Professional iconography throughout (no emojis)
+- **Responsive Layout**: Mobile-first design that works on all devices
+- **Clean Navigation**: Header with team name and logout, simple footer
+- **Visual Feedback**: Color-coded round status (green=qualified, red=disqualified, etc.)
+
+### 🛠️ Technical Features
+- **Real-time Validation**: Client and server-side form validation
+- **Progress Persistence**: Team progress saved in localStorage and backend
+- **API Integration**: Complete backend integration for all competition features
+- **Security**: Protected routes, secure admin access, token management
 
 ## 🛠️ Tech Stack
 
@@ -36,6 +57,7 @@ my-project/
 │   ├── components/               # Reusable UI components
 │   ├── pages/                   # Page components
 │   ├── rounds/                  # Round-specific components
+│   │   ├── Round2/             # Round 2 Technical Challenge
 │   │   └── Round3/             # Round 3 CODE RUSH
 │   ├── services/                # API service layer
 │   └── assets/                  # Static assets
@@ -104,6 +126,27 @@ npm run dev
 - **Backend API**: http://localhost:5001/api
 - **Health Check**: http://localhost:5001/api/health
 
+## 🎮 Round 2: Technical Challenge
+
+Round 2 is a comprehensive technical challenge accessible through the main application:
+
+1. **Access**: Go to `/result` page and click "Start Round 2"
+2. **Team Registration**: Enter your team name to begin
+3. **Aptitude Questions**: Answer 3 multiple-choice questions
+4. **Coding Challenges**: Complete 3 different types of challenges:
+   - **Debug**: Find and fix bugs in C code
+   - **Trace**: Trace through recursive functions
+   - **Program**: Write complete C programs
+5. **Timer**: 5 minutes per coding challenge
+6. **Auto-save**: Progress is automatically saved
+
+### Round 2 Features:
+- **Aptitude Testing**: Multiple-choice technical questions
+- **Multiple Challenge Types**: Debug, Trace, and Program challenges
+- **Real-time Timer**: 5-minute countdown for each challenge
+- **Progress Tracking**: Visual progress indicators
+- **Score System**: Points for correct answers and completed challenges
+
 ## 🎮 Round 3: CODE RUSH
 
 Round 3 is a special coding challenge accessible through the main application:
@@ -142,6 +185,16 @@ Round 3 is a special coding challenge accessible through the main application:
 | GET | `/api/competition/status` | Get team status | Yes |
 | PUT | `/api/competition/status` | Update status | Yes |
 | POST | `/api/competition/verify-round3-code` | Verify Round 3 access code | Yes |
+
+### Round 2 (Technical Challenge)
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/api/round2/teams` | Create Round 2 team entry | Yes |
+| GET | `/api/round2/teams/:id` | Get team progress | Yes |
+| POST | `/api/round2/aptitude/answer` | Submit aptitude answer | Yes |
+| POST | `/api/round2/coding/submit` | Submit coding solution | Yes |
+| GET | `/api/round2/scores` | Get Round 2 leaderboard | No |
+| GET | `/api/round2/admin/overview` | Get admin overview | Yes |
 
 ### Round 3 (CODE RUSH)
 | Method | Endpoint | Description | Auth Required |
